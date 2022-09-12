@@ -2,7 +2,7 @@ const inquirer = require('inquirer');
 //const fs = require('fs');
 const selectHelper = require('./lib/selectionHelper');
 
-const sql = require('.db/query');
+const sql = require('./db/connection');
 const cTable = require('console.table');
 
 
@@ -35,8 +35,8 @@ const emplTracker = () => {
   ])
   
   .then((data) => {
-    console.log(answers);
     const {request} = data;
+    console.log(request);
 
     switch (request){
       case 'View All Employees':
