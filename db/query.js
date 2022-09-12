@@ -1,4 +1,4 @@
-const db = require('./connection');
+const db = require('./connection'); 
 
   class dbQuery {
       constructor(db){
@@ -166,12 +166,12 @@ const db = require('./connection');
                 CONCAT (mgmt.first_name, '', mgmt.last_name) as Manager
             FROM employee emp
             LEFT JOIN employee mgmt
-            ON e.manager_id = mgmt.id
+            ON emp.manager_id = mgmt.id
             INNER JOIN role
-            ON e.role_id = role_id
+            ON emp.role_id = role.id
             LEFT JOIN department
             ON role.department_id = department.id
-            ORDER BY e.id;`
+            ORDER BY emp.id;`
       );
   }
 

@@ -2,7 +2,7 @@ const inquirer = require('inquirer');
 //const fs = require('fs');
 const selectHelper = require('./lib/selectionHelper');
 
-const sql = require('./db/connection');
+const db = require('./db/query');
 const cTable = require('console.table');
 
 
@@ -168,7 +168,7 @@ const newEmp = async() => {
     }
   ]);
 
-  await sql.addEmp(emp);
+  await db.addEmp(emp);
 
   emplTracker();
 
@@ -216,7 +216,7 @@ const newRole = async () => {
     }
   ]);
 
-  await sql.addRole(role);
+  await db.addRole(role);
 
   emplTracker();
 
@@ -248,7 +248,7 @@ const updateEmpRole = async () => {
     }
   ]);
 
-  await sql.updateEmpRoleById(emp);
+  await db.updateEmpRoleById(emp);
 
   emplTracker();
 
@@ -276,7 +276,7 @@ const updateEmpManager = async () => {
     }
   ]);
 
-  await sql.updataEmpManagerById(emp);
+  await db.updataEmpManagerById(emp);
 
   emplTracker();
 
@@ -284,7 +284,7 @@ const updateEmpManager = async () => {
 
 //Get all departments
 const viewDepts = () => {
-  sql.getDepts()
+  db.getDepts()
 
   .then(([rows]) => {
     console.log('\n');
@@ -299,7 +299,7 @@ const viewDepts = () => {
 
 //Get all rows
 const viewRoles = () => {
-  sql.getRoles()
+  db.getRoles()
 
   .then(([rows]) => {
     console.log('\n');
@@ -313,7 +313,7 @@ const viewRoles = () => {
 
 //Get all employees
 const viewEmps = () => {
-  sql.getEmps()
+  db.getEmps()
 
   .then(([rows]) => {
     console.log('\n');
@@ -327,7 +327,7 @@ const viewEmps = () => {
 
 //Get all departments and their budget
 const viewBudgets = async () => {
-  sql.getBudgetByDept()
+  db.getBudgetByDept()
 
   .then(([rows]) => {
     console.log('\n');
@@ -379,7 +379,7 @@ const viewEmpByMgr = async () => {
   ])
 
   .then((data) => {
-    sql.viewEmpByMgrId(data)
+    db.viewEmpByMgrId(data)
     .then(([rows]) => {
       console.log('\n');
       console.log(cTable.getTable(rows));
