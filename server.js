@@ -377,9 +377,13 @@ inquirer.prompt([
 
 .then((data) => {
   db.getEmpByDeptId(data)
+
   .then(([rows]) => {
     console.log('\n');
     console.log(cTable.getTable(rows))
+  })
+
+  .then(() => {
     emplTracker();
   })
 })
