@@ -43,7 +43,7 @@ const db = require('./connection');
   deleteEmp(data) {
       const values = [data.emp_id];
       return this.db
-      .promise
+      .promise()
       .query(
           `DELETE FROM employee
           where id = ?`,
@@ -51,7 +51,7 @@ const db = require('./connection');
       );
   }
 
-  updateEmployeeId(data) {
+  updateEmpRoleById(data) {
       const values = [data.role_id, data.emp_id];
     return this.db
     .promise()
@@ -91,7 +91,7 @@ const db = require('./connection');
       .query(
           `SELECT emp.first_name as "First Name",
           emp.last_name as "Last Name",
-          emp.department_name as Department
+          d.department_name as "Department"
           FROM employee emp
           INNER JOIN role r
           ON emp.role_id = r.id
@@ -185,5 +185,26 @@ const db = require('./connection');
           FROM employee emp;`
       )
   }
+
+  getNonManagers(){
+    return this.db
+    .promise()
+    .query(
+    `SELECT id, CONCAT(first_name, ' ', last_name) AS employee_name
+    FROM employee 
+    WHERE manager_id IS NOT NULL`
+  )
+  }
+
+  getManagers() {
+    return this.db
+      .promise()
+      .query(
+      `SELECT id, CONCAT(first_name, ' ', last_name) AS manager_name
+      FROM employee 
+      WHERE manager_id IS NULL`
+    )
+  }
+
   }
   module.exports = new dbQuery(db);

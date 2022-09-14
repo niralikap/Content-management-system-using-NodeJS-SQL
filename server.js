@@ -113,7 +113,7 @@ const newDept = async () => {
     }
   ]);
 
-  await sql.addDept(department);
+  await db.addDept(department);
 
   emplTracker();
 }
@@ -199,7 +199,7 @@ const newRole = async () => {
       name: "salary",
       message: "What is the salary?",
       validate: (salary) => {
-        if(salary && isNaN(salary)){
+        if(salary && !isNaN(salary)){
           return true;
         } else {
           console.log("Please enter the salary!");
@@ -223,6 +223,21 @@ const newRole = async () => {
 }
 
 const delEmp = async () => {
+  const empArr = await selectHelper.NonMgmtChoices();
+
+  const emp = await inquirer.prompt([
+    {
+      type: "list",
+      name: "emp_id",
+      message: "What Employee do you want to Delete?",
+      choices: empArr,
+      loop: false,
+    }
+   ]);
+
+  await db.deleteEmp(emp);
+
+  emplTracker();
 
 }
 
@@ -230,12 +245,18 @@ const updateEmpRole = async () => {
 
   const roleArr = await selectHelper.roleChoices();
   const empArr = await selectHelper.empChoices();
-
+  // const emps = await db.getEmps();
+  // console.log(emps);
+  // const employees1 = emps.map(emp => { 
+  //   return {
+  //   value: emp.id,
+  //   name: emp.first_name + " " + emp.last_name,
+  // }})
   const emp = await inquirer.prompt([
     {
-      type: "input",
+      type: "list",
       name: "emp_id",
-      message: "Please enter the name of the employee that you want to update.",
+      message: "Please enter the id of the employee that you want to update.",
       choices: empArr,
       loop: false,
     },
@@ -276,7 +297,7 @@ const updateEmpManager = async () => {
     }
   ]);
 
-  await db.updataEmpManagerById(emp);
+  await db.updateEmpManagerById(emp);
 
   emplTracker();
 
@@ -355,7 +376,7 @@ inquirer.prompt([
 ])
 
 .then((data) => {
-  sql.getEmpByDeptId(data)
+  db.getEmpByDeptId(data)
   .then(([rows]) => {
     console.log('\n');
     console.log(cTable.getTable(rows))
@@ -379,7 +400,7 @@ const viewEmpByMgr = async () => {
   ])
 
   .then((data) => {
-    db.viewEmpByMgrId(data)
+    db.getEmpByMgrId(data)
     .then(([rows]) => {
       console.log('\n');
       console.log(cTable.getTable(rows));
