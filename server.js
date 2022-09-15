@@ -381,9 +381,6 @@ inquirer.prompt([
   .then(([rows]) => {
     console.log('\n');
     console.log(cTable.getTable(rows))
-  })
-
-  .then(() => {
     emplTracker();
   })
 })
